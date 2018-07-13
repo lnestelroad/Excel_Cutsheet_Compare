@@ -2,9 +2,11 @@ import sys
 sys.path.insert(0, "C:\\Users\\P2822177\\Desktop\\Modules")
 
 import os
-import pandas as pd
 import csv
+
+import pandas as pd
 import openpyxl
+from openpyxl import load_workbook
 
 #######################################################################################################################
 def Export():
@@ -29,7 +31,7 @@ def Export():
         f.close()
         files.append('test-' + str(counter) + '.xlsx.csv')
         counter += 1
-        
+
     print(files)
     return files
 #######################################################################################################################
@@ -43,18 +45,18 @@ def Del():
 #######################################################################################################################
 def Import(masterfile):
     pwd = os.path.dirname(os.path.abspath(__file__))
-    print(pwd)
-    wb = openpyxl.Workbook()
-    ws = wb.active
+    df = pd.read_csv("{}\\{}".format(pwd, masterfile), sep='\t', index_col=False)
 
-    f = open(masterfile)
-    reader = csv.reader(f, delimiter='\t')
-    for row in reader:
-        ws.append(row)
-
-    f.close()
+    book = load_workbook('{}\\Master_Cutsheet_Template.xlsx'.format(pwd))
     pwd = pwd.strip().split("\\")
-    wb.save('{}_Master_Liam.xlsx'.format(pwd[-1]))
+
+    sheet_name = 'Master'
+    with pd.ExcelWriter('{}_Master_Liam.xlsx'.format(pwd[-1]), engine='openpyxl') as writer:
+
+        writer.book = book
+        writer.sheets = dict((ws.title, ws) for ws in book.worksheets)
+
+        df.to_excel(writer, sheet_name=sheet_name, startrow=1, startcol=0, engine='openpyxl')
 #######################################################################################################################
 def Compare(format):
     masterfile = "Main.csv"
@@ -64,7 +66,7 @@ def Compare(format):
     source_dupe = {}  #another dictionary is made to store the file in which the connections are documented
     dupe_counter = 0  #initiates a counter to keep track of how many duplicates occure in each run
     main = open('{}\\{}'.format(pwd, masterfile), "w")  #opens the master file in write mode
-    main.write("Type\tHostname\tDevice Type\tCabinet Location\tRack Unit\tSlot Number\tPort Number\tHostname\tDecvice Type\tCabinet Location\tRack Unit\tSlot Number\tPort Number\tCable Type\tCable Length\tCable Color\tInterface Type\n")
+    # main.write("Type\tHostname\tDevice Type\tCabinet Location\tRack Unit\tSlot Number\tPort Number\tHostname\tDecvice Type\tCabinet Location\tRack Unit\tSlot Number\tPort Number\tCable Type\tCable Length\tCable Color\tInterface Type\n")
 
     for txt in files:  #iteraters through each text file in the directory
         line_counter = 0  #at the beginning of each file, the line counter is reset to one
@@ -108,6 +110,6 @@ def Compare(format):
     main.close()
     print (dupe_counter)
     Import(masterfile)
-    Del()
+    # Del()
 #######################################################################################################################
 Compare("Liam")
