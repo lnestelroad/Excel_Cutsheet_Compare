@@ -75,22 +75,28 @@ def Compare(format):
                 t = line.strip().split(",")  #splits each element in the line into its own slot in an array
                 if t[0] == "Install" or t[0] == "Connected":
                     if format == "Liam":
-                        key = (t[1] + "\t" +  t[2] + "\t" + t[6] + "\t" + t[7])
-                        value = (t[8] + "\t" +  t[9] + "\t" + t[12] + "\t" + t[13])
+                        key = (t[1] + "\t" +  t[2] + "\t" + t[6] + "\t" + t[7]).lower()
+                        value = (t[8] + "\t" +  t[9] + "\t" + t[12] + "\t" + t[13]).lower()
 
                         try:
-                            new = (t[0] + "\t" + t[1] + "\t" + t[2] + "\t" + t[4] + "\t" + t[5] + "\t" + t[6] + "\t" + t[7]
-                                 + "\t" + t[8] + "\t" + t[9] + "\t" + t[10] + "\t" + t[11] + "\t" + t[12] + "\t" + t[13] + "\t" + t[3] + "\t\t\t" + t[14] + "\n")
+                            new = (t[0] + "\t" + t[1].upper() + "\t" + t[2] + "\t" + t[4].upper() + "\t" +
+                                   t[5] + "\t" + t[6] + "\t" + t[7] + "\t" + t[8].upper() + "\t" +
+                                   t[9] + "\t" + t[10].upper() + "\t" + t[11] + "\t" + t[12] + "\t" +
+                                   t[13] + "\t" + t[3] + "\t\t\t" + t[14] + "\n")
                         except IndexError:
-                            new = (t[0] + "\t" + t[1] + "\t" + t[2] + "\t" + t[4] + "\t" + t[5] + "\t" + t[6] + "\t" + t[7]
-                                 + "\t" + t[8] + "\t" + t[9] + "\t" + t[10] + "\t" + t[11] + "\t" + t[12] + "\t" + t[13] + "\t" + t[3] + "\t\t\t" + "\n")
+                            new = (t[0] + "\t" + t[1].upper() + "\t" + t[2] + "\t" + t[4].upper() + "\t" +
+                                   t[5] + "\t" + t[6] + "\t" + t[7] + "\t" + t[8].upper() + "\t" +
+                                   t[9] + "\t" + t[10].upper() + "\t" + t[11] + "\t" + t[12] + "\t" +
+                                   t[13] + "\t" + t[3] + "\t\t\t" + "\n")
 
                     else:
-                        key = (t[1] + "\t" +  t[2] + "\t" + t[5] + "\t" + t[6])
-                        value = (t[7] + "\t" +  t[8] + "\t" + t[11] + "\t" + t[12])
+                        key = (t[1] + "\t" +  t[2] + "\t" + t[5] + "\t" + t[6]).lower()
+                        value = (t[7] + "\t" +  t[8] + "\t" + t[11] + "\t" + t[12]).lower()
 
-                        new = (t[0] + "\t" + t[1] + "\t" + t[2] + "\t" + t[3] + "\t" + t[4] + "\t" + t[5] + "\t" + t[6] + "\t" + t[7]
-                             + "\t" + t[8] + "\t" + t[9] + "\t" + t[10] + "\t" + t[11] + "\t" + t[12] + "\t" + t[13] + "\t" + t[14] + "\t\t" + t[16] + "\n")
+                        new = (t[0] + "\t" + t[1].upper() + "\t" + t[2] + "\t" + t[3].upper() + "\t" +
+                               t[4] + "\t" + t[5] + "\t" + t[6] + "\t" + t[7].upper() + "\t" +
+                               t[8] + "\t" + t[9].upper() + "\t" + t[10] + "\t" + t[11] + "\t" +
+                               t[12] + "\t" + t[13] + "\t" + t[14] + "\t\t" + t[16].upper() + "\n")
 
                     if key in connections and value == connections[key]:  #determines if a connection already exists in the dictionary
                         #print("Duplicate detected on line " + str(line_counter) + " in file " + txt + " : source file is " +  source_dupe[connections[key]] + "\n")
