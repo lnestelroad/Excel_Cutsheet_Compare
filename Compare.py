@@ -110,6 +110,6 @@ def Compare(format):
     main.close()
     print (dupe_counter)
     Import(masterfile)
-    # Del()
+    Del()
 #######################################################################################################################
 Compare("Liam")
